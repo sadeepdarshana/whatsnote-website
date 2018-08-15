@@ -1,8 +1,15 @@
 import Vue from 'vue'
 import App from './App.vue'
 
-Vue.config.productionTip = false
+import VJstree from 'vue-jstree'
 
-new Vue({
-  render: h => h(App)
-}).$mount('#app')
+
+
+Vue.config.productionTip = false;
+
+let V = new Vue( {
+    render: h => h(App),
+    components:{VJstree}
+} );
+
+V.$mount('#app');
