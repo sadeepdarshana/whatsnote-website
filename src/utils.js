@@ -10,7 +10,7 @@ export function post(path,data) {
     data.requestGuid = generateGuid();
     data.jwt = "web_"+ VueCookie.get('uid');
 
-    return  Vue.Http.post(glob.host+path,data);
+    return  Vue.Http.post(glob.host+path,data,{timeout:3000});
 }
 
 export function get(path,data,progress) {

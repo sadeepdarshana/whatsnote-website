@@ -113,7 +113,7 @@ export default {
             arrowright: require('../assets/arrowright.png'),
 
 
-            file: require('../assets/file_type_icon_file.png'),
+            file:require('../assets/file_type_icon_file.png'),
             avi: require('../assets/file_type_icon_avi.png'),
             dir: require('../assets/file_type_icon_dir.png'),
             doc: require('../assets/file_type_icon_doc.png'),
