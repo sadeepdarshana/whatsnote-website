@@ -64,6 +64,7 @@ export default {
 
         this.catalog = await post("fetchCatalog",{});
         this.catalog.catalogLoading = false;
+        utils.allocateSpace();
     },
     methods: {
         clickCatalogItem(item){
@@ -241,6 +242,30 @@ export default {
     }
     hr {
         display: block;
+    }
+
+
+    img{-webkit-user-drag: none;}
+
+
+    /* width */
+    ::-webkit-scrollbar {
+        width: 4px;
+    }
+
+    /* Track */
+    ::-webkit-scrollbar-track {
+        background: #f1f1f1;
+    }
+
+    /* Handle */
+    ::-webkit-scrollbar-thumb {
+        background: #ddd;
+    }
+
+    /* Handle on hover */
+    ::-webkit-scrollbar-thumb:hover {
+        background: #bbb;
     }
 
 </style>

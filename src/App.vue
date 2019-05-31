@@ -1,7 +1,12 @@
 <template>
     <div id="app">
-        <QRPage v-if="!userLoaded"/>
-        <ThePage v-if="userLoaded"/>
+
+
+        <NormalSite v-if="file==null"></NormalSite>
+        <WNViewer :contentName="file" v-if="file!=null"></WNViewer>
+
+
+
     </div>
 </template>
 
@@ -9,13 +14,19 @@
     import DirectoryStructure from './components/DirectoryStructure.vue'
     import QRPage from './components/QRPage.vue'
     import ThePage from "./components/ThePage";
+    import WNViewer from "./components/WNViewer";
+    import VueRouter from 'vue-router'
+    import NormalSite from './NormalSite'
 
 export default {
     name: 'app',
     components: {
+        NormalSite:NormalSite,
         ThePage:ThePage,
+        WNViewer:WNViewer,
         DirectoryStructure: DirectoryStructure,
-        QRPage: QRPage
+        QRPage: QRPage,
+        VueRouter:VueRouter
     }
     ,
     methods:{
@@ -33,10 +44,12 @@ export default {
     },
     created(){
         this.refresh();
+
     },
     data() {
         return {
-            userLoaded:false
+            userLoaded:false,
+            file:this.$router.currentRoute.query.file
         }
     }
 }

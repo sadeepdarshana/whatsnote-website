@@ -1,4 +1,5 @@
-import Vue from 'vue'
+//import Vue from 'vue'
+import Vue from 'vue/dist/vue.js'
 import App from './App.vue'
 
 import VueQRCodeComponent from 'vue-qrcode-component'
@@ -6,9 +7,24 @@ import VueQRCodeComponent from 'vue-qrcode-component'
 import { MdButton, MdContent, MdTabs, MdCard ,MdLayout,MdDivider} from 'vue-material/dist/components'
 import 'vue-material/dist/vue-material.min.css'
 
+import VueRouter from 'vue-router'
+
+
 var VueCookie = require('vue-cookie');
 Vue.use(VueCookie);
 
+
+
+
+const Foo = { template: '<div>foo</div>' }
+const Bar = { template: '<div>bar</div>' }
+const routes = [
+    { path: '/foo', component: Foo },
+    { path: '/bar', component: Bar }
+]
+const router = new VueRouter({
+    routes // short for `routes: routes`
+})
 
 
 Vue.use(MdButton)
@@ -17,6 +33,7 @@ Vue.use(MdCard)
 Vue.use(MdTabs)
 Vue.use(MdLayout)
 Vue.use(MdDivider)
+Vue.use(VueRouter)
 
 
 
@@ -30,7 +47,8 @@ var glob = require('./glob');
 glob.host = "http://139.59.51.167/";
 
 var V = new Vue( {
-    render: h => h(App)
+    render: h => h(App),
+    router
 } );
 
 
