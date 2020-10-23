@@ -44,7 +44,8 @@ Vue.config.productionTip = false;
 
 
 var glob = require('./glob');
-glob.host = "http://139.59.51.167/";
+glob.host = "https://whatsnote.live/";
+glob.fileHost = "https://whatsnote.live/";
 
 var V = new Vue( {
     render: h => h(App),

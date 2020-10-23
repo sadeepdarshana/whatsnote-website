@@ -29,8 +29,8 @@
 <script>
 import VJstree from 'vue-jstree'
 import VueQRCodeComponent from 'vue-qrcode-component'
-import {fileExists, openInNewTab, openPdf, post, readsql} from "../utils"
-import { get} from "../utils"
+import {fileExists, openInNewTab, openPdf, readsql} from "../utils"
+import { get, post, downloadFile} from "../utils"
 import * as utils from "../utils";
 var Vue = require('vue-resource');
 var glob = require('../glob');
@@ -72,7 +72,7 @@ export default {
             if(!await fileExists(node.model.contentName)) {
                 if(this.fileDownloading[node.model._id])return;
                 this.fileDownloading[node.model._id] = true;
-                let bloc = await get("fileDownload", {repoGuid: this.repoGuid, diGuid: node.model._id}, function (p) {
+                let bloc = await downloadFile(node.model.contentName,function (p) {
                     node.model.size = utils.humanFileSize(p.loaded) + " / " + utils.humanFileSize(node.model.legacySize)
                 });
                 this.fileDownloading[node.model._id] = false;
@@ -121,14 +121,15 @@ export default {
 
             let arr = this.repoContent.body.data;
 
-            let mmap = []
+            let mmap = [];
              for (let i of arr) {
-                 mmap[i._id] = i
+                 mmap[i._id] = i;
                  i.children = []
              }
              for (let i of arr){
                  if(i._id==="root")continue;
-                 mmap[i.parent] && mmap[i.parent].children.push(i)
+                 if(mmap[i.parent]==null)continue;;
+                 mmap[i.parent].children.push(i)
              }
              for (let i of arr){
                  i.text = i.title

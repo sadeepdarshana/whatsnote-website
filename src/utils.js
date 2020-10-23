@@ -19,8 +19,15 @@ export function get(path,data,progress) {
 
     data.requestGuid = generateGuid();
     data.jwt = "web_"+ VueCookie.get('uid');
+    console.log(33)
+    console.log(data)
+    console.log(44)
+    return  Vue.Http.get(glob.hostfiles+data.contentName,{responseType: 'blob',body:data,params:data,headers:data,downloadProgress:progress});
+    //classic return  Vue.Http.get(glob.host+path,{responseType: 'blob',body:data,params:data,headers:data,downloadProgress:progress});
+}
+export function downloadFile(contentName,progress) {
 
-    return  Vue.Http.get(glob.host+path,{responseType: 'blob',body:data,params:data,headers:data,downloadProgress:progress});
+    return  Vue.Http.get(glob.fileHost+contentName,{responseType: 'blob',downloadProgress:progress});
 }
 
 export function generateGuid(){
