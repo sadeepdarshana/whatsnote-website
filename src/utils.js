@@ -220,6 +220,40 @@ export function openPdf(contentName) {
 
 
 }
+export function openMp3(contentName,title) {
+
+    var win = window.open("audio/player.html?mp3="+contentName +"&title="+title , '_blank');
+    console.log(window);
+    win.focus();
+
+
+}
+
+
+export function youtube_parser(url){
+    var regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/;
+    var match = url.match(regExp);
+    return (match&&match[7].length==11)? match[7] : false;
+}
+
+export function openYtb(linku,title) {
+
+    var id = ""
+    try {
+        id = youtube_parser(linku);
+    }
+    catch(err) {
+        id = "";
+    }
+
+    if (id == null)id="";
+
+    var win = window.open("ytb/player.html?ytb="+id +"&title="+title , '_blank');
+    console.log(window);
+    win.focus();
+
+
+}
 
 export function binaryImageto64(uint8Array) {
     return 'data:image/jpeg;base64,' + btoa(

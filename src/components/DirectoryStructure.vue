@@ -11,9 +11,9 @@
                         <img :src="getIcon(_.model.type)" style="height: 31px" >
                         ​<span >&nbsp&nbsp{{_.model.text}}</span>
                         ​<span style="color: transparent">&nbsp&nbsp{{spaces(30 -_.model.text.length)}}</span>
-                        ​<p v-if="_.model.type!=='dir'" class="filesize">&nbsp&nbsp{{_.model.size}}</p>
-                        ​<p v-if="_.model.type!=='dir'" class="author"><img   style="vertical-align: -3px; height: 14px" src="../assets/author.png"/>&nbsp&nbsp{{_.model.authorTitle.split(" ")[0].toLowerCase()}}</p>
-                        ​<p v-if="_.model.type!=='dir'" class="downloads"><img   style="vertical-align: -1px; height: 14px" src="../assets/users.png"/>&nbsp&nbsp x {{_.model.downloads}}</p>
+                        ​<p v-if="_.model.type!=='dir' && _.model.type!=='ytb'" class="filesize">&nbsp&nbsp{{_.model.size}}</p>
+                        ​<p v-if="_.model.type!=='dir' && _.model.type!=='ytb'" class="author"><img   style="vertical-align: -3px; height: 14px" src="../assets/author.png"/>&nbsp&nbsp{{_.model.authorTitle.split(" ")[0].toLowerCase()}}</p>
+                        ​<p v-if="_.model.type!=='dir' && _.model.type!=='ytb'" class="downloads"><img   style="vertical-align: -1px; height: 14px" src="../assets/users.png"/>&nbsp&nbsp x {{_.model.downloads}}</p>
 
                     </span>​​​​​​​​​​​​​​​​​​​​​​​​​​​​​
                     ​<span class="openButton" v-if="localFiles[_.model.contentName]" >&nbsp open  &nbsp</span>
@@ -29,7 +29,7 @@
 <script>
 import VJstree from 'vue-jstree'
 import VueQRCodeComponent from 'vue-qrcode-component'
-import {fileExists, openInNewTab, openPdf, readsql} from "../utils"
+import {fileExists, openInNewTab, openPdf,openMp3,openYtb, readsql} from "../utils"
 import { get, post, downloadFile} from "../utils"
 import * as utils from "../utils";
 var Vue = require('vue-resource');
@@ -64,10 +64,25 @@ export default {
 
         async itemClick (node) {
             node.model.opened = !node.model.opened;
+            console.log(node)
 
 
-            if(this.localFiles[node.model.contentName] && node.model.type === 'wn0')openInNewTab(node.model.contentName);
-            if(this.localFiles[node.model.contentName] && node.model.type === 'pdf')openPdf(node.model.contentName);
+            if(["mp3","wav","aac","ogg","wma","flac","aif","m3u","m4a","mid","mpa","amr","3gp","3gpp"].includes(node.model.type)){
+              openMp3(node.model.contentName, node.model.title);
+              return;
+            }
+            if(this.localFiles[node.model.contentName] && node.model.type === 'wn0'){
+              openInNewTab(node.model.contentName);
+              return
+            }
+            if(this.localFiles[node.model.contentName] && node.model.type === 'pdf'){
+              openPdf(node.model.contentName);
+              return;
+            }
+            if( node.model.type === 'ytb'){
+              openYtb(node.model.linku, node.model.title);
+              return;
+            }
 
             if(!await fileExists(node.model.contentName)) {
                 if(this.fileDownloading[node.model._id])return;
@@ -82,7 +97,7 @@ export default {
             }
 
             console.log(node.model.type);
-            if(node.model.type!=='pdf' && node.model.type!=='wn0') {
+            if(node.model.type!=='pdf' && node.model.type!=='ytb' && node.model.type!=='wn0' && node.model.type!=='mp3') {
                 require("downloadjs")(await utils.readBlob(node.model.contentName), node.model.title + "." + node.model.type, "image/jpeg");
             }
             else {
@@ -91,12 +106,13 @@ export default {
         }
         ,
         getIcon(ext){
+            if(["ytb"].includes(ext))return this.ytb;
             if(["doc","docx","odt","rtf","txt"].includes(ext))return this.doc;
             if(["wn0"].includes(ext))return this.wn0;
             if(["dir"].includes(ext))return this.dir;
-            if(["avi","mp4","wmv","flv","mov","3gp","m4v"].includes(ext))return this.avi;
+            if(["avi","mp4","wmv","flv","mov","m4v"].includes(ext))return this.avi;
             if(["pdf"].includes(ext))return this.pdf;
-            if(["mp3","wav","aac","ogg","wma","flac","aif","m3u","m4a","mid","mpa","amr"].includes(ext))return this.mp3;
+            if(["mp3","wav","aac","ogg","wma","flac","aif","m3u","m4a","mid","mpa","amr","3gp","3gpp"].includes(ext))return this.mp3;
             if(["ppt","pptx","odp","pps","ppsx"].includes(ext))return this.ppt;
             if(["xls","xlsx","xlsm","ods","csv"].includes(ext))return this.xls;
             if(["png","jpg","jpeg","bmp","gif","tiff","webp","psd","svg","wmf"].includes(ext))return this.png;
@@ -157,6 +173,7 @@ export default {
             file:require('../assets/file_type_icon_file.png'),
             avi: require('../assets/file_type_icon_avi.png'),
             dir: require('../assets/file_type_icon_dir.png'),
+            ytb: require('../assets/file_type_icon_ytb.png'),
             doc: require('../assets/file_type_icon_doc.png'),
             mp3: require('../assets/file_type_icon_mp3.png'),
             pdf: require('../assets/file_type_icon_pdf.png'),

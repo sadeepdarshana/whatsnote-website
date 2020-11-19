@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+
+<script src="player.js"></script>
+
+<head>
+    <link rel="icon" href="/favicon.png">
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        p {
+            font-family: "M PLUS 1p", sans-serif;color: #ffffff; font-size: large;
+        }
+        audio{
+
+            margin: auto;
+        }
+
+        .page{
+            background: linear-gradient(0deg, #edeeed 50%, #1ebea5 50%);
+
+            height: 100%;
+            width: 100%;
+            left: 0;
+            top: 0;
+            overflow: hidden;
+            position: fixed;
+        }
+
+        *:focus {
+            outline: 0;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="page">
+        <p id="caption" style="display:block;text-align: center; margin-top: 17vh; margin-bottom: 6vh;">Listen to the T-Rex:</p>
+        <figure oncontextmenu="return false;">
+
+            <audio id="audioplayer"
+                   style="display:block;margin:auto; text-align: center; width: 650px; "
+                   controls
+                   controlsList="nodownload"
+                   preload="auto"
+                   oncontextmenu="return false;">
+                <source id="audioplayersrc" src="" />
+            </audio>
+
+        </figure>
+        <p style="display:block;text-align: center; margin-top: 45vh; color:#191941"># contact <snap style="color: #00b18d">071 911 3932</snap> for help on <snap style="color: #00b18d">Academic Assignments</snap>, <snap style="color: #00b18d">Coursework</snap> and <snap style="color: #00b18d">Research</snap>.</p>
+        <p style="display:block;text-align: center; margin-top: 0vh; color:#191941">Prices start from <snap style="color: #00b18d">Rs. 1000</snap>.</p>
+    </div>
+</body>
+</html>
